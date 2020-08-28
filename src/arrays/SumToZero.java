@@ -9,11 +9,11 @@ public class SumToZero {
             return false;
         for (int i = 0; i < inpArr.length; i++) {
             int remSum = val - inpArr[i];
-            HashMap<Integer, Integer> diff = new HashMap<>();
+            HashSet<Integer> diff = new HashSet<>();
             for (int j = i + 1; j < inpArr.length; j++) {
-                if (diff.containsKey(remSum - inpArr[j]))
+                if (diff.contains(remSum - inpArr[j]))
                     return true;
-                diff.put(inpArr[j], j);
+                diff.add(inpArr[j]);
             }
         }
         return false;
@@ -35,15 +35,18 @@ public class SumToZero {
 
         for (int i = 0; i < inpArr.length; i++) {
             int remSum = val - inpArr[i];
-            HashMap<Integer, Integer> diff = new HashMap<Integer, Integer>();
+            HashSet<Integer> diff = new HashSet<>();
             for (int j = i + 1; j < inpArr.length; j++) {
                 int reqSum = remSum - inpArr[j];
-                if (diff.containsKey(reqSum)) {
-                    addSortedListToResults(results, inpArr[i], inpArr[diff.get(reqSum)], inpArr[j]);
+                if (diff.contains(reqSum)) {
+                    addSortedListToResults(results, inpArr[i], reqSum, inpArr[j]);
                     diff.remove(reqSum);
                 }
+                else {
+                    diff.add(inpArr[j]);
+                }
 
-                diff.put(inpArr[j], j);
+
             }
         }
 
@@ -54,7 +57,7 @@ public class SumToZero {
     public static void testThreeSumToZero() {
         int sum = 0;
         int[] inpArr = {-1, 0, 1, 2, -1, -4};
-        //System.out.println("Three elements with sum = 0 exists? :"+ isThreeSum(inpArr, sum));
+        System.out.println("Three elements with sum = 0 exists? :"+ isThreeSum(inpArr, sum));
 
         List<List<Integer>> result = threeSum(inpArr, sum);
         for (List<Integer> l : result) {
